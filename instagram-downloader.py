@@ -21,7 +21,6 @@ def downloadIGTV(L, username ):
 def downloadProfilePic(L, username ):
     PROFILE = username
     profile = Profile.from_username(L.context, PROFILE)
-    total = len(list(profile.get_igtv_posts()))
     L.download_profilepic(profile)
     print("Profile picture downloaded")
 
@@ -29,8 +28,6 @@ def checkFriendship(L, username1, username2 ):
     L.interactive_login(username1)
     PROFILE1 = username1
     profile1 = Profile.from_username(L.context, PROFILE1)
-    PROFILE2 = username2
-    profile2 = Profile.from_username(L.context, PROFILE2)
     followers_list = profile1.get_followers()
     following_list = profile1.get_followees()
     followers_usernames = []
