@@ -19,23 +19,58 @@ def downloadIGTV( username ):
     L.download_igtv(profile)
     print("Downloaded " + str(total) + " IGTVs")
 
-def main(argv):
-    mode = int(sys.argv[1])
-    username = sys.argv[2]
+def downloadProfilePic( username ):
     PROFILE = username
     L = Instaloader()
     profile = Profile.from_username(L.context, PROFILE)
-    if (profile.is_private):
-        print("user is private")
-        exit(0)
+    total = len(list(profile.get_igtv_posts()))
+    L.download_profilepic(profile)
+    print("Profile picture downloaded")
 
-    if mode > 2:
+'''
+#you have to be logged
+def checkFriendship( username1, username2 ):
+    L = Instaloader()
+    PROFILE1 = username1
+    profile1 = Profile.from_username(L.context, PROFILE1)
+    PROFILE2 = username2
+    profile2 = Profile.from_username(L.context, PROFILE2)
+    followers_list = profile1.get_followers()
+    print(len(list(followers_list)))
+'''
+
+def main(argv):
+    mode = int(sys.argv[1])
+    username1 = sys.argv[2]
+    username2 = ""
+    if len(sys.argv) > 3:
+        username2 = sys.argv[3]
+    L = Instaloader()
+    PROFILE1 = username1
+    PROFILE2 = username2
+    profile1 = Profile.from_username(L.context, PROFILE1)
+    profile2 = None
+
+    if (profile1.is_private):
+        print("user " + username1 + " is private")
+
+    if len(sys.argv) > 3:
+        profile2 = Profile.from_username(L.context, PROFILE2)
+        if (profile2.is_private):
+            print("user " + username2 + " is private")
+
+    if mode > 3:
         print("nothing here")
         exit(0)
     if mode == 1:
-        downloadAllPosts(username)
+        downloadAllPosts(username1)
     elif mode == 2:
-        downloadIGTV(username)
+        downloadIGTV(username1)
+    elif mode == 3:
+        downloadProfilePic(username1)
+    elif mode == 4:
+        #checkFriendship(username1, username2)
+        print("coming")
     else:
         print("nothing here")
 
