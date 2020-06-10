@@ -71,6 +71,27 @@ def checkNonFollowers(L, username):
         followers_usernames.append(follower.username)
     for follower in following_list:
         following_usernames.append(follower.username)
+    print(list(set(following_usernames) - set(followers_usernames)))
+
+def checkNotFollowing(L, username):     
+    try:
+        L.load_session_from_file(username)
+    except FileNotFoundError:
+        print("Session not found")
+        L.interactive_login(username)
+        L.save_session_to_file()
+
+    PROFILE = username
+    profile = Profile.from_username(L.context, PROFILE)
+    followers_list = profile.get_followers()
+    following_list = profile.get_followees()
+    followers_usernames = []
+    following_usernames = []
+    for follower in followers_list:
+        followers_usernames.append(follower.username)
+    for follower in following_list:
+        following_usernames.append(follower.username)
+    print(list(set(followers_usernames) - set(following_usernames)))
     
 def main(argv):
     mode = int(sys.argv[1])
@@ -96,7 +117,7 @@ def main(argv):
     if (profile.is_private):
         print("User " + username + " is private")
 
-    if mode > 4:
+    if mode > 6:
         print("nothing here")
         exit(0)
     if mode == 1:
@@ -107,6 +128,10 @@ def main(argv):
         downloadProfilePic(L, username)
     elif mode == 4:
         checkFriendship(L, username, username2)
+    elif mode == 5:
+        checkNonFollowers(L, username)
+    elif mode == 6:
+        checkNotFollowing(L, username)
     else:
         print("nothing here")
 
