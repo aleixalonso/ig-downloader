@@ -24,8 +24,14 @@ def downloadProfilePic(L, username ):
     L.download_profilepic(profile)
     print("Profile picture downloaded")
 
-def checkFriendship(L, username1, username2 ):
-    L.interactive_login(username1)
+def checkFriendship(L, username1, username2 ):     
+    try:
+        L.load_session_from_file(username1)
+    except FileNotFoundError:
+        print("session not found")
+        L.interactive_login(username1)
+        L.save_session_to_file()
+        
     PROFILE1 = username1
     profile1 = Profile.from_username(L.context, PROFILE1)
     followers_list = profile1.get_followers()
