@@ -1,9 +1,9 @@
 import sys
 from instaloader import Instaloader, Profile
 
-def downloadAllPosts( username ):
+def downloadAllPosts(L, username ):
     PROFILE = username
-    L = Instaloader()
+   # L = Instaloader()
     profile = Profile.from_username(L.context, PROFILE)
     posts = profile.get_posts()
     total = len(list(profile.get_posts()))
@@ -11,7 +11,7 @@ def downloadAllPosts( username ):
         L.download_post(post, PROFILE)
     print("Downloaded " + str(total) + " posts")
 
-def downloadIGTV( username ):
+def downloadIGTV(L, username ):
     PROFILE = username
     L = Instaloader()
     profile = Profile.from_username(L.context, PROFILE)
@@ -19,9 +19,8 @@ def downloadIGTV( username ):
     L.download_igtv(profile)
     print("Downloaded " + str(total) + " IGTVs")
 
-def downloadProfilePic( username ):
+def downloadProfilePic(L, username ):
     PROFILE = username
-    L = Instaloader()
     profile = Profile.from_username(L.context, PROFILE)
     total = len(list(profile.get_igtv_posts()))
     L.download_profilepic(profile)
@@ -46,6 +45,9 @@ def main(argv):
     if len(sys.argv) > 3:
         username2 = sys.argv[3]
     L = Instaloader()
+    L.save_metadata = False
+    L.download_geotags = False
+    L.download_comments = False
     PROFILE1 = username1
     PROFILE2 = username2
     profile1 = Profile.from_username(L.context, PROFILE1)
@@ -63,11 +65,11 @@ def main(argv):
         print("nothing here")
         exit(0)
     if mode == 1:
-        downloadAllPosts(username1)
+        downloadAllPosts(L, username1)
     elif mode == 2:
-        downloadIGTV(username1)
+        downloadIGTV(L, username1)
     elif mode == 3:
-        downloadProfilePic(username1)
+        downloadProfilePic(L, username1)
     elif mode == 4:
         #checkFriendship(username1, username2)
         print("coming")
