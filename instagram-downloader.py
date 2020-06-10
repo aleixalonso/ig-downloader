@@ -49,38 +49,39 @@ def checkFriendship(L, username1, username2 ):
 
 def main(argv):
     mode = int(sys.argv[1])
-    username1 = sys.argv[2]
+    username = sys.argv[2]
     username2 = ""
     if len(sys.argv) > 3:
         username2 = sys.argv[3]
+
     L = Instaloader()
     L.save_metadata = False
     L.download_geotags = False
     L.download_comments = False
-    PROFILE1 = username1
-    PROFILE2 = username2
-    profile1 = Profile.from_username(L.context, PROFILE1)
-    profile2 = None
+    if "-m" in sys.argv:
+        L.save_metadata = True
+    if "-g" in sys.argv:
+        L.download_geotags = True
+    if "-c" in sys.argv:
+        L.download_comments = True
 
-    if (profile1.is_private):
-        print("user " + username1 + " is private")
+    PROFILE = username
+    profile = Profile.from_username(L.context, PROFILE)
 
-    if len(sys.argv) > 3:
-        profile2 = Profile.from_username(L.context, PROFILE2)
-        if (profile2.is_private):
-            print("user " + username2 + " is private")
+    if (profile.is_private):
+        print("user " + username + " is private")
 
     if mode > 4:
         print("nothing here")
         exit(0)
     if mode == 1:
-        downloadAllPosts(L, username1)
+        downloadAllPosts(L, username)
     elif mode == 2:
-        downloadIGTV(L, username1)
+        downloadIGTV(L, username)
     elif mode == 3:
-        downloadProfilePic(L, username1)
+        downloadProfilePic(L, username)
     elif mode == 4:
-        checkFriendship(L, username1, username2)
+        checkFriendship(L, username, username2)
     else:
         print("nothing here")
 
