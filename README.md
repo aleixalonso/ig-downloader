@@ -11,5 +11,5 @@ pip3 install instaloader
 ```elm
 python3 instagram-downloader.py option username
 ```
-* Option 1: download all instagram photos (and videos) for given user
+* Option 1: download all instagram photos (and videos) for a given user
     * Example: ```python3 instagram-downloader.py 1 yourinstagramusername```
