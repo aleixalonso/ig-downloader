@@ -1,7 +1,7 @@
 import sys
 from instaloader import Instaloader, Profile
 
-def downloadAllPosts(L, username ):
+def downloadAllPosts(L, username):
     PROFILE = username
     profile = Profile.from_username(L.context, PROFILE)
     posts = profile.get_posts()
@@ -10,7 +10,7 @@ def downloadAllPosts(L, username ):
         L.download_post(post, PROFILE)
     print("Downloaded " + str(total) + " posts")
 
-def downloadIGTV(L, username ):
+def downloadIGTV(L, username):
     PROFILE = username
     L = Instaloader()
     profile = Profile.from_username(L.context, PROFILE)
@@ -18,24 +18,24 @@ def downloadIGTV(L, username ):
     L.download_igtv(profile)
     print("Downloaded " + str(total) + " IGTVs")
 
-def downloadProfilePic(L, username ):
+def downloadProfilePic(L, username):
     PROFILE = username
     profile = Profile.from_username(L.context, PROFILE)
     L.download_profilepic(profile)
     print("Profile picture downloaded")
 
-def checkFriendship(L, username1, username2 ):     
+def checkFriendship(L, username, username2):     
     try:
-        L.load_session_from_file(username1)
+        L.load_session_from_file(username)
     except FileNotFoundError:
-        print("session not found")
-        L.interactive_login(username1)
+        print("Session not found")
+        L.interactive_login(username)
         L.save_session_to_file()
         
-    PROFILE1 = username1
-    profile1 = Profile.from_username(L.context, PROFILE1)
-    followers_list = profile1.get_followers()
-    following_list = profile1.get_followees()
+    PROFILE = username
+    profile = Profile.from_username(L.context, PROFILE)
+    followers_list = profile.get_followers()
+    following_list = profile.get_followees()
     followers_usernames = []
     following_usernames = []
     for follower in followers_list:
@@ -44,15 +44,34 @@ def checkFriendship(L, username1, username2 ):
         following_usernames.append(follower.username)
     
     if(username2 in following_usernames):
-        print( username1 + " follows " + username2 )
+        print( username + " follows " + username2 )
     else:
-        print( username1 + " does not follow " + username2 )
+        print( username + " does not follow " + username2 )
     
     if(username2 in followers_usernames):
-        print( username2 + " follows " + username1 )
+        print( username2 + " follows " + username )
     else:
-        print( username2 + " does not follow " + username1 )
+        print( username2 + " does not follow " + username )
 
+def checkNonFollowers(L, username):     
+    try:
+        L.load_session_from_file(username)
+    except FileNotFoundError:
+        print("Session not found")
+        L.interactive_login(username)
+        L.save_session_to_file()
+
+    PROFILE = username
+    profile = Profile.from_username(L.context, PROFILE)
+    followers_list = profile.get_followers()
+    following_list = profile.get_followees()
+    followers_usernames = []
+    following_usernames = []
+    for follower in followers_list:
+        followers_usernames.append(follower.username)
+    for follower in following_list:
+        following_usernames.append(follower.username)
+    
 def main(argv):
     mode = int(sys.argv[1])
     username = sys.argv[2]
@@ -75,7 +94,7 @@ def main(argv):
     profile = Profile.from_username(L.context, PROFILE)
 
     if (profile.is_private):
-        print("user " + username + " is private")
+        print("User " + username + " is private")
 
     if mode > 4:
         print("nothing here")
