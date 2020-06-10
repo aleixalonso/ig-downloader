@@ -12,7 +12,6 @@ def downloadAllPosts( username ):
     for post in posts:
         L.download_post(post, PROFILE)
 
-
 def main(argv):
     mode = int(sys.argv[1])
     username = sys.argv[2]
