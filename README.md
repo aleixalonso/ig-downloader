@@ -13,3 +13,5 @@ python3 instagram-downloader.py option username
 ```
 * Option 1: download all instagram photos (and videos) for a given user
     * Example: ```python3 instagram-downloader.py 1 yourinstagramusername```
+* Option 2: download IGTVs for a given user
+    * Example: ```python3 instagram-downloader.py 2 yourinstagramusername```
