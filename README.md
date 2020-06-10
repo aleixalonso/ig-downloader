@@ -11,8 +11,9 @@ pip3 install instaloader
 ```elm
 python3 instagram-downloader.py option username
 ```
-* Option 1: download all instagram photos (and videos) of a given user
+* Option 1: download all instagram photos (and videos) of a given user, if you use the flag -c you will also download comments, -m for metadata and -g for geotags
     * Example: ```python3 instagram-downloader.py 1 instagramusername```
+    * Example: ```python3 instagram-downloader.py 1 instagramusername -m -c```
 * Option 2: download IGTVs of a given user
     * Example: ```python3 instagram-downloader.py 2 instagramusername```
 * Option 3: download profile picture of a given user
